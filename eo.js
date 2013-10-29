@@ -77,7 +77,7 @@ $EO.extend = function(obj) {
         proto[key] = obj[key];
     }
     EO.extend = $EO.extend;
-    EO.super = self.prototype;
+    EO.__super__ = self.prototype;
 
     return EO;
 };
