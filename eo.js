@@ -64,20 +64,20 @@ $EO.extend = function(obj) {
 
         F = function() {},
 
-        Child = function() {
+        EO = function() {
             var s = this;
             $EO.call(s);
             s.init && s.init.apply(s, Array.prototype.slice.call(arguments, 0));
         };
 
     F.prototype = self.prototype;
-    proto = Child.prototype = new F;
-    proto.constructor = Child;
+    proto = EO.prototype = new F;
+    proto.constructor = EO;
     for (key in obj) {
         proto[key] = obj[key];
     }
-    Child.extend = $EO.extend;
-    Child.super = self.prototype;
+    EO.extend = $EO.extend;
+    EO.super = self.prototype;
 
-    return Child;
+    return EO;
 };
