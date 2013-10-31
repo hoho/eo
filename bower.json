@@ -1,7 +1,7 @@
 {
-  "name": "eo",
+  "name": "eo.js",
   "title": "Extendable Object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/hoho/eo",
   "authors": [
     "Marat Abdullin <dakota@brokenpipe.ru>"

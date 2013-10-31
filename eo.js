@@ -1,5 +1,5 @@
 /*!
- * EO.js v0.0.1, https://github.com/hoho/eo
+ * eo.js v0.0.2, https://github.com/hoho/eo
  * (c) 2013 Marat Abdullin, MIT license
  */
 
