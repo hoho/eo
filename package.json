@@ -1,7 +1,7 @@
 {
   "name": "eo.js",
   "title": "Extendable Object",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Inheritable and extendable objects constructor",
   "main": "eo.js",
   "directories": {
