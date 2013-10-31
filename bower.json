@@ -1,0 +1,29 @@
+{
+  "name": "eo",
+  "title": "Extendable Object",
+  "version": "0.0.1",
+  "homepage": "https://github.com/hoho/eo",
+  "authors": [
+    "Marat Abdullin <dakota@brokenpipe.ru>"
+  ],
+  "description": "Inheritable and extendable objects constructor",
+  "main": "eo.js",
+  "keywords": [
+    "inheritance",
+    "class",
+    "object"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "*.md",
+    "package.json",
+    "bower.json",
+    "Gruntfile.js"
+  ],
+  "dependencies": {
+  }
+}
