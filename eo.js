@@ -1,5 +1,5 @@
 /*!
- * eo.js v0.0.3, https://github.com/hoho/eo
+ * eo.js v0.0.4, https://github.com/hoho/eo
  * (c) 2013 Marat Abdullin, MIT license
  */
 
@@ -38,14 +38,20 @@ var $EO = function() {
         return self;
     };
 
+    self.trigger = function(name, val, prev) {
+        if ((tmp = handlers[name])) {
+            for (i = 0; i < tmp.length; i++) {
+                tmp[i].call(self, val, prev, name);
+            }
+        }
+    };
+
     self.set = function(name, val, force) {
         tmp = data[name];
         data[name] = val;
 
-        if ((val !== tmp || force) && (tmp2 = handlers[name])) {
-            for (i = 0; i < tmp2.length; i++) {
-                tmp2[i].call(self, val, tmp, name);
-            }
+        if (val !== tmp || force) {
+            self.trigger(name, val, tmp);
         }
 
         return self;
