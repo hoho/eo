@@ -1,69 +1,71 @@
 /*!
- * eo.js v0.0.4, https://github.com/hoho/eo
+ * eo.js v0.1.0, https://github.com/hoho/eo
  * (c) 2013 Marat Abdullin, MIT license
  */
 
-var $EO = function() {
-    var self = this,
-        data = {},
-        handlers = {},
-        tmp,
-        tmp2,
-        i;
+var $E = {
+    O: function() {
+        var self = this,
+            data = {},
+            handlers = {},
+            tmp,
+            tmp2,
+            i;
 
-    self.on = function(name, callback) {
-        (handlers[name] || (handlers[name] = [])).push(callback);
+        self.on = function(name, callback) {
+            (handlers[name] || (handlers[name] = [])).push(callback);
 
-        return self;
-    };
+            return self;
+        };
 
-    self.off = function(name, callback) {
-        if ((tmp = handlers[name])) {
-            if (callback) {
-                i = 0;
-                while (i < tmp.length) {
-                    if (tmp[i] === callback) {
-                        tmp.splice(i, 1);
-                    } else {
-                        i++;
+        self.off = function(name, callback) {
+            if ((tmp = handlers[name])) {
+                if (callback) {
+                    i = 0;
+                    while (i < tmp.length) {
+                        if (tmp[i] === callback) {
+                            tmp.splice(i, 1);
+                        } else {
+                            i++;
+                        }
                     }
+                }
+
+                if (!callback || !tmp.length) {
+                    delete handlers[name];
                 }
             }
 
-            if (!callback || !tmp.length) {
-                delete handlers[name];
+            return self;
+        };
+
+        self.trigger = function(name, val, prev) {
+            if ((tmp = handlers[name])) {
+                for (i = 0; i < tmp.length; i++) {
+                    tmp[i].call(self, val, prev, name);
+                }
             }
-        }
+        };
 
-        return self;
-    };
+        self.set = function(name, val, force) {
+            tmp = data[name];
+            data[name] = val;
 
-    self.trigger = function(name, val, prev) {
-        if ((tmp = handlers[name])) {
-            for (i = 0; i < tmp.length; i++) {
-                tmp[i].call(self, val, prev, name);
+            if (val !== tmp || force) {
+                self.trigger(name, val, tmp);
             }
-        }
-    };
 
-    self.set = function(name, val, force) {
-        tmp = data[name];
-        data[name] = val;
+            return self;
+        };
 
-        if (val !== tmp || force) {
-            self.trigger(name, val, tmp);
-        }
-
-        return self;
-    };
-
-    self.get = function(name) {
-        return data[name];
-    };
+        self.get = function(name) {
+            return data[name];
+        };
+    }
 };
 
 
-$EO.extend = function(obj) {
+$E.O.extend = function(obj) {
     var self = this,
         proto,
         key,
@@ -72,7 +74,7 @@ $EO.extend = function(obj) {
 
         EO = function() {
             var s = this;
-            $EO.call(s);
+            $E.O.call(s);
             s.init && s.init.apply(s, Array.prototype.slice.call(arguments, 0));
         };
 
@@ -82,7 +84,7 @@ $EO.extend = function(obj) {
     for (key in obj) {
         proto[key] = obj[key];
     }
-    EO.extend = $EO.extend;
+    EO.extend = $E.O.extend;
     EO.__super__ = self.prototype;
 
     return EO;

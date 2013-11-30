@@ -4,7 +4,7 @@ Extendable Object
 ## Basic
 
 ```js
-var eo = new $EO;
+var eo = new $E.O;
 
 // There are four built in methods: on, off, set, get.
 
@@ -19,6 +19,10 @@ eo.set('prop', 'ololo');
 eo.set('prop', 'piupiu');
 > name: "prop", previous value: "ololo", new value: "piupiu"
 
+// You can touch the property with some value without changing it.
+eo.trigger('prop', 'hahaha', 'prevprev');
+> name: "prop", previous value: "prevprev", new value: "hahaha"
+
 // These properties are stored in a special container.
 console.log(eo.prop);
 > undefined
@@ -30,7 +34,7 @@ console.log(eo.get('prop'));
 ## Extending
 
 ```js
-var MyEO = $EO.extend({
+var MyEO = $E.O.extend({
     init: function(arg1, arg2) {
         // init() method is called with new instance creation.
         console.log('args: "' + arg1 + '" and "' + arg2 + '"');
@@ -56,7 +60,7 @@ var mymyeo = new MyMyEO('11', '22');
 console.log(mymyeo.method('|'));
 > hi|world
 
-console.log(myeo instanceof $EO);
+console.log(myeo instanceof $E.O);
 > true
 
 console.log(myeo instanceof MyEO);
@@ -75,7 +79,7 @@ console.log(myeo instanceof MyMyEO);
 ## Calling superclass methods
 
 ```js
-var MyEO = $EO.extend({
+var MyEO = $E.O.extend({
     meme: function() { return 'oooo'; }
 });
 
