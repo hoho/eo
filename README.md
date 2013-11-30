@@ -23,6 +23,9 @@ eo.set('prop', 'piupiu');
 eo.trigger('prop', 'hahaha', 'prevprev');
 > name: "prop", previous value: "prevprev", new value: "hahaha"
 
+eo.trigger('prop', 'hihihi');
+> name: "prop", previous value: "undefined", new value: "hihihi"
+
 // These properties are stored in a special container.
 console.log(eo.prop);
 > undefined
