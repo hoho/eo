@@ -87,7 +87,7 @@ var MyEO = $E.O.extend({
 });
 
 var MyMyEO = MyEO.extend({
-    meme: function() { return MyMyEO.__super__.meme() + 'zzzz'; }
+    meme: function() { return MyMyEO.__super__.meme.call(this) + 'zzzz'; }
 });
 
 var eo = new MyMyEO();
