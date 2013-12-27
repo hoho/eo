@@ -1,4 +1,4 @@
-test('Modifier class changes', function() {
+test('Inheritance test', function() {
     var ret = [];
 
     var class1 = $E.O.extend({init: function() { ret.push(1 + ', ' + Array.prototype.slice.call(arguments, 0)); }}),
@@ -54,4 +54,91 @@ test('Modifier class changes', function() {
     deepEqual(instance5 instanceof class2, false);
 
     deepEqual(instance5 instanceof class1, true);
+});
+
+test('Setters and getters test', function() {
+    var ret = [];
+
+    var eo = new ($E.O)();
+
+    eo.on('prop', function(val, prev, name) {
+        ret.push('name: "' + name + '", previous value: "' + prev +
+                 '", new value: "' + val + '"');
+    });
+
+    eo.set('prop', 'ololo');
+    deepEqual(ret, ['name: "prop", previous value: "undefined", new value: "ololo"']);
+    ret = [];
+
+    eo.set('prop', 'piupiu');
+    deepEqual(ret, ['name: "prop", previous value: "ololo", new value: "piupiu"']);
+    ret = [];
+
+    eo.set('prop', 'piupiu');
+    deepEqual(ret, []);
+
+    eo.set('prop', 'piupiu', true);
+    deepEqual(ret, ['name: "prop", previous value: "piupiu", new value: "piupiu"']);
+    ret = [];
+
+    eo.trigger('prop', 'hahaha', 'prevprev');
+    deepEqual(ret, ['name: "prop", previous value: "prevprev", new value: "hahaha"']);
+    ret = [];
+
+    eo.trigger('prop', 'hihihi');
+    deepEqual(ret, ['name: "prop", previous value: "undefined", new value: "hihihi"']);
+    ret = [];
+
+    deepEqual(eo.prop, undefined);
+
+    deepEqual(eo.get('prop'), 'piupiu');
+});
+
+test('Multiple properties setters and getters test', function() {
+    var ret = [];
+
+    var eo = new ($E.O)();
+
+    eo
+        .on('prop1', function(val, prev, name) {
+            ret.push('name: "' + name + '", previous value: "' + prev +
+                     '", new value: "' + val + '"');
+        })
+        .on('prop2', function(val, prev, name) {
+            ret.push('name: "' + name + '", previous value: "' + prev +
+                     '", new value: "' + val + '"');
+        });
+
+    eo.set({prop0: 'aaa', prop1: 'bbb', prop2: 'ccc', prop3: 'ddd'});
+    deepEqual(ret, [
+        'name: "prop1", previous value: "undefined", new value: "bbb"',
+        'name: "prop2", previous value: "undefined", new value: "ccc"'
+    ]);
+    ret = [];
+
+    eo.set({prop0: 'aaa', prop1: 'bbb', prop2: 'ccc', prop3: 'ddd'});
+    deepEqual(ret, []);
+
+    eo.set({prop0: 'aaa', prop1: 'bbb', prop2: 'ccc', prop3: 'ddd'}, true);
+    deepEqual(ret, [
+        'name: "prop1", previous value: "bbb", new value: "bbb"',
+        'name: "prop2", previous value: "ccc", new value: "ccc"'
+    ]);
+    ret = [];
+
+    deepEqual(eo.get(), {prop0: 'aaa', prop1: 'bbb', prop2: 'ccc', prop3: 'ddd'});
+
+    eo.set({prop0: 'aaa', prop1: 'eee'});
+    deepEqual(ret, ['name: "prop1", previous value: "bbb", new value: "eee"']);
+    ret = [];
+    deepEqual(eo.get(), {prop0: 'aaa', prop1: 'eee', prop2: 'ccc', prop3: 'ddd'});
+
+    eo.set(new String('prop2'), 'fff');
+    deepEqual(ret, ['name: "prop2", previous value: "ccc", new value: "fff"']);
+    ret = [];
+
+    var o = new (function() { this.aaa = 123; })();
+    eo.set(o, 999);
+
+    deepEqual(eo.get(), {prop0: 'aaa', prop1: 'eee', prop2: 'fff', prop3: 'ddd', '[object Object]': 999});
 });
