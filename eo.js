@@ -64,7 +64,8 @@ var $E = (function() {
                 prev;
 
             // XXX: Rather simplified version of isPlainObject. Fix in case of
-            //      necessity.
+            //      necessity (it doesn't detect plain objects from another
+            //      iframes and windows).
             if (name && (name.constructor === objConstructor)) {
                 vals = name;
                 force = val;
